@@ -1,10 +1,9 @@
 from pathlib import Path
 from decouple import config
 
-SECRET_KEY = config('SECRET_KEY')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-
+SECRET_KEY = config('SECRET_KEY')  # Cargar la clave secreta desde el archivo .env
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Cargar el usuario de correo desde el archivo .env
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Cargar la contraseña del correo desde el archivo .env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +20,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'emailer',  # Asegúrate de incluir esta línea
+    'emailer',  # Asegúrate de incluir esta línea para tu aplicación de envío de correos
 ]
 
 MIDDLEWARE = [
@@ -42,12 +40,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Cambios realizados aquí
-ROOT_URLCONF = 'app_enviar_correos.urls'  # Asegúrate de que sea correcto
+ROOT_URLCONF = 'app_enviar_correos.urls'  # Asegúrate de que esta línea esté correcta
 
 # Templates
 TEMPLATES = [
-    {   
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
@@ -62,8 +59,7 @@ TEMPLATES = [
     },
 ]
 
-# Cambios realizados aquí
-WSGI_APPLICATION = 'app_enviar_correos.wsgi.application'  # Asegúrate de que sea correcto
+WSGI_APPLICATION = 'app_enviar_correos.wsgi.application'  # Asegúrate de que esta línea esté correcta
 
 # Database
 DATABASES = {
