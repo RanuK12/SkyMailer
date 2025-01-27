@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-)o91_&dt=16s$77pc!#ej@#v2*#9&_1ip^mfvbxsqlch3b5bg!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://sky-mailer.vercel.app/']
 
 # Application definition
 INSTALLED_APPS = [
