@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SkyMailer</title> 
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4; 
+    }
+
+    .container { 
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em; 
+      color: #333; 
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .intro p {
+      font-size: 1.2em;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    div {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .success-message { 
+      text-align: center;
+      margin-top: 15px; 
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container"> 
+    <div class="intro">
+      <p>Bienvenido a <strong>SkyMailer</strong>, la forma más rápida y sencilla de enviar correos electrónicos a todos tus contactos. <br> ¡Comienza ahora!</p>
+    </div>
+
+    <h1>Formulario de Correo</h1> 
+
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        <label for="destinatarios">Destinatarios (separados por comas o saltos de línea):</label>
+        <textarea id="destinatarios" name="destinatarios" required></textarea>
+      </div>
+      <div>
+        <label for="asunto">Asunto:</label>
+        <input type="text" id="asunto" name="asunto" required>
+      </div>
+      <div>
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" required></textarea>
+      </div>
+      <button type="submit">Enviar</button>
+
+      {% if success %} 
+        <div class="success-message">
+          <p>Correo enviado correctamente!</p> 
+        </div>
+      {% endif %}
+    </form>
+  </div> 
+</body>
+</html>
