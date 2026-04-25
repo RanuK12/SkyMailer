@@ -1,8 +1,34 @@
+# Python
 venv/
 __pycache__/
 *.pyc
-.env
+*.pyo
+
+# Django
 db.sqlite3
+*.log
+media/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (sensitive)
 *.xlsx
 *.csv
-.DS_Store
+email_bodies.txt
+salida.txt
+
+# Temp scripts
+create_demo.py
+
+# Temp preview templates
+preview.html
+preview_all.html
