@@ -297,10 +297,12 @@ const App = {
   },
 
   renderAttachments() {
-    const container = document.getElementById('attachmentsList');
-    if (!container) return;
+    const containers = [
+      document.getElementById('attachmentsList'),
+      document.getElementById('attachmentsListBatch')
+    ];
 
-    container.innerHTML = this.attachments.map((f, i) => {
+    const html = this.attachments.map((f, i) => {
       const size = f.size < 1024 ? f.size + ' B' :
                    f.size < 1024*1024 ? (f.size/1024).toFixed(1) + ' KB' :
                    (f.size/1024/1024).toFixed(1) + ' MB';
@@ -314,6 +316,8 @@ const App = {
         <span class="remove-att" onclick="App.removeAttachment(${i})">✗</span>
       </div>`;
     }).join('');
+
+    containers.forEach(c => { if (c) c.innerHTML = html; });
   },
 
   // ── Templates ──
