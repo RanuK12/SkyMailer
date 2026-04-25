@@ -1,107 +1,223 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>SkyMailer</title> 
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #f4f4f4; 
-    }
-
-    .container { 
-      background-color: #fff;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      width: 500px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em; 
-      color: #333; 
-    }
-
-    .intro {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .intro p {
-      font-size: 1.2em;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    div {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    button[type="submit"] {
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .success-message { 
-      text-align: center;
-      margin-top: 15px; 
-      color: green;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyMailer — Envío Masivo Inteligente</title>
+  <meta name="description" content="SkyMailer: herramienta profesional de envío masivo de correos con personalización, plantillas y seguimiento en tiempo real.">
+  <link rel="stylesheet" href="{% static 'emailer/css/style.css' %}">
 </head>
 <body>
-  <div class="container"> 
-    <div class="intro">
-      <p>Bienvenido a <strong>SkyMailer</strong>, la forma más rápida y sencilla de enviar correos electrónicos a todos tus contactos. <br> ¡Comienza ahora!</p>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">✈️</div>
+      <span class="logo-text">SkyMailer</span>
+    </div>
+    <div class="header-info">
+      <span class="dot"></span>
+      <span class="sender-email">{{ sender_email }}</span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+
+    <!-- LEFT COLUMN: Compose -->
+    <div class="compose-column">
+
+      <!-- Sender Info -->
+      <div class="sender-info">
+        <span class="sender-icon">📤</span>
+        <span class="sender-label">Enviando como:</span>
+        <span class="sender-email">{{ sender_email }}</span>
+      </div>
+
+      <!-- Templates -->
+      <div class="card" id="templateCard">
+        <div class="card-title">
+          <span class="icon">📋</span> Plantillas
+          <span class="badge">Clic para usar</span>
+        </div>
+        <div class="template-grid" id="templateGrid">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Recipients -->
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">👥</span> Destinatarios
+          <span class="badge" id="recipientCount">0 destinatarios</span>
+        </div>
+
+        <div class="recipients-zone" id="recipientsZone">
+          <div class="recipient-chips" id="recipientChips"></div>
+          <input type="text" class="recipients-input" id="recipientsInput"
+                 placeholder="Escribe emails separados por coma, Enter para agregar...">
+        </div>
+
+        <div class="recipients-actions">
+          <input type="file" class="file-input-hidden" id="csvFileInput" accept=".csv,.txt,.xlsx,.xls">
+          <button type="button" class="btn btn-secondary btn-sm" id="csvUploadBtn">
+            📁 Importar CSV
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="App.clearRecipients()">
+            🗑️ Limpiar
+          </button>
+        </div>
+
+        <div class="variables-bar" id="variablesBar">
+          <span style="font-size:0.75em;color:var(--text-muted)">Variables: carga un CSV para ver las disponibles</span>
+        </div>
+
+        <div class="counter" id="recipientCounter">
+          <span class="count">0</span> destinatarios válidos
+        </div>
+      </div>
+
+      <!-- Compose (normal mode) -->
+      <div class="card" id="composeCard">
+        <div class="card-title">
+          <span class="icon">✏️</span> Redactar Email
+        </div>
+
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="asunto">Asunto</label>
+          <input type="text" id="asunto" name="asunto" placeholder="Ej: Novedades de {empresa} para {nombre}">
+        </div>
+
+        <div class="form-group">
+          <label for="mensaje">Mensaje (HTML soportado)</label>
+          <textarea id="mensaje" name="mensaje" rows="10"
+                    placeholder="Escribe tu mensaje aquí. Usa {nombre}, {email} y otras variables del CSV..."></textarea>
+        </div>
+
+        <!-- Attachments -->
+        <div class="form-group">
+          <label>Archivos adjuntos</label>
+          <input type="file" class="file-input-hidden" id="attachFileInput" multiple>
+          <button type="button" class="btn btn-secondary btn-sm" id="attachBtn">
+            📎 Agregar archivos
+          </button>
+          <div class="attachments-list" id="attachmentsList"></div>
+        </div>
+
+        <!-- Delay Control -->
+        <div class="delay-control">
+          <label for="delaySlider">⏱️ Delay entre envíos:</label>
+          <input type="range" id="delaySlider" min="3" max="120" value="60" step="1">
+          <span class="delay-value" id="delayValue">60s</span>
+        </div>
+
+        <!-- Send Button -->
+        <button type="button" class="btn btn-primary btn-send" id="sendBtn" disabled>
+          🚀 Enviar Correos
+        </button>
+      </div>
+
+      <!-- Batch Queue (batch mode, hidden by default) -->
+      <div class="card" id="batchCard" style="display:none">
+        <div class="card-title">
+          <span class="icon">📦</span> Cola de Envío por Lotes
+          <span class="badge" id="batchCount">0 emails</span>
+        </div>
+        <p style="font-size:0.82em;color:var(--text-secondary);margin-bottom:12px">
+          Cada email tiene su propio asunto y mensaje. Haz clic en uno para previsualizarlo.
+        </p>
+        <div class="batch-queue" id="batchQueue"></div>
+
+        <!-- Attachments in batch mode -->
+        <div class="form-group" style="margin-top:16px">
+          <label>Archivos adjuntos (se añaden a todos)</label>
+          <input type="file" class="file-input-hidden" id="attachFileInputBatch" multiple>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('attachFileInputBatch').click()">
+            📎 Agregar archivos
+          </button>
+          <div class="attachments-list" id="attachmentsListBatch"></div>
+        </div>
+
+        <!-- Delay Control -->
+        <div class="delay-control">
+          <label for="delaySliderBatch">⏱️ Delay entre envíos:</label>
+          <input type="range" id="delaySliderBatch" min="3" max="120" value="60" step="1"
+                 oninput="document.getElementById('delayValueBatch').textContent=this.value+'s'">
+          <span class="delay-value" id="delayValueBatch">60s</span>
+        </div>
+
+        <!-- Send Button -->
+        <button type="button" class="btn btn-primary btn-send" id="sendBtnBatch" disabled>
+          🚀 Enviar Todos los Correos
+        </button>
+      </div>
     </div>
 
-    <h1>Formulario de Correo</h1> 
-
-    <form method="post">
-      {% csrf_token %}
-      <div>
-        <label for="destinatarios">Destinatarios (separados por comas o saltos de línea):</label>
-        <textarea id="destinatarios" name="destinatarios" required></textarea>
-      </div>
-      <div>
-        <label for="asunto">Asunto:</label>
-        <input type="text" id="asunto" name="asunto" required>
-      </div>
-      <div>
-        <label for="mensaje">Mensaje:</label>
-        <textarea id="mensaje" name="mensaje" required></textarea>
-      </div>
-      <button type="submit">Enviar</button>
-
-      {% if success %} 
-        <div class="success-message">
-          <p>Correo enviado correctamente!</p> 
+    <!-- RIGHT COLUMN: Preview -->
+    <div class="preview-column">
+      <div class="card" style="position:sticky;top:30px;">
+        <div class="card-title">
+          <span class="icon">👁️</span> Vista Previa
+          <span class="badge">En vivo</span>
         </div>
-      {% endif %}
-    </form>
-  </div> 
+
+        <div class="preview-frame">
+          <!-- Batch preview navigation -->
+          <div class="preview-nav" id="previewNav" style="display:none">
+            <button class="btn btn-secondary btn-sm" onclick="App.previewBatchItem(Math.max(0, App.batchPreviewIndex-1))">← Anterior</button>
+            <span class="preview-counter" id="previewCounter"></span>
+            <button class="btn btn-secondary btn-sm" onclick="App.previewBatchItem(Math.min(App.recipients.filter(r=>r._valid).length-1, App.batchPreviewIndex+1))">Siguiente →</button>
+          </div>
+          <div class="preview-header">
+            <div><strong>De:</strong> {{ sender_email }}</div>
+            <div><strong>Para:</strong> <span id="previewTo">destinatario@ejemplo.com</span></div>
+            <div><strong>Asunto:</strong> <span id="previewSubject"><em style="color:#999">Sin asunto</em></span></div>
+          </div>
+          <div id="previewBody">
+            <em style="color:#999">Escribe tu mensaje para ver la vista previa...</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Overlay -->
+  <div class="progress-overlay" id="progressOverlay">
+    <div class="progress-card">
+      <h2 class="progress-title" id="progressTitle">Enviando correos...</h2>
+      <p class="progress-subtitle" id="progressSubtitle">Preparando envío...</p>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+
+      <div class="progress-stats">
+        <div class="stat">
+          <div class="stat-value success" id="successCount">0</div>
+          <div class="stat-label">Enviados</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value error" id="errorCount">0</div>
+          <div class="stat-label">Fallidos</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="totalCount" style="color:var(--accent-light)">0</div>
+          <div class="stat-label">Total</div>
+        </div>
+      </div>
+
+      <div class="progress-log" id="progressLog"></div>
+
+      <div class="progress-actions">
+        <button class="btn btn-secondary" id="downloadLog" style="display:none">📥 Descargar Log</button>
+        <button class="btn btn-primary" id="closeProgress" style="display:none">✓ Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'emailer/js/app.js' %}"></script>
 </body>
 </html>

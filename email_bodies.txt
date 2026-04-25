@@ -1,0 +1,82 @@
+﻿
+
+======= Email_1_Cold - FULL BODY (Row 1) =======
+Hola equipo de CIAVT,
+
+Soy Emilio Ranucoli, ingeniero en sistemas. Paso mis d├¡as construyendo
+software para empresas en Europa ÔÇö vengo de trabajar en la infraestructura
+de pricing din├ímico de Booking.com en ├ümsterdam y en proyectos de datos
+para clientes Fortune 500 en Accenture (Roma).
+
+Estoy abriendo una l├¡nea de trabajo en C├│rdoba y revis├® http://www.ciavt.com.ar/
+antes de escribirte. Detect├® algo concreto:
+
+  ÔåÆ Sin HSTS (seguridad HTTP incompleta) ┬À Sin Content-Security-Policy ┬À E-commerce sin pasarela de pagos moderna
+
+No es una cr├¡tica ÔÇö es el tipo de cosa que en empresas europeas se
+resuelve en 2-3 semanas con el equipo t├®cnico correcto, y que
+t├¡picamente libera 15-30% de capacidad operativa cuando se ataca bien.
+
+Lo que hago es distinto a una agencia:
+  ┬À Escribo el c├│digo yo, con mi estudio (no tercerizo).
+  ┬À Est├índares de las empresas en las que me form├® (observabilidad,
+    CI/CD, tests, documentaci├│n ÔÇö cosas que en LATAM rara vez vienen
+    incluidas).
+  ┬À Proyectos chicos (8-12 semanas) con entregables medibles, no
+    retainers eternos.
+
+┬┐Tendr├¡as 15 minutos la pr├│xima semana para una llamada corta? Sin
+venta, sin propuesta empaquetada ÔÇö s├│lo te muestro qu├® ver├¡a yo en
+CIAVT si fuera tu CTO por un rato.
+
+Agend├í directo ac├í (horarios C├│rdoba):
+  ÔåÆ https://calendly.com/ranucoliemilio/consulta-tecnica-15min
+
+O respond├® este mail si prefer├¡s, te contesto en el d├¡a.
+
+Saludos,
+Emilio Ranucoli
+Ingeniero en Sistemas ┬À Fundador, Ranuk IT Solutions
+Ex-Booking.com (├ümsterdam) ┬À Ex-Accenture (Roma)
+AWS Certified ┬À IBM Data Science Professional
+ranuk.dev/ranuk-it
+
+---
+Si prefer├¡s no recibir m├ís correos de mi parte, respond├® "remover"
+y sal├¡s de la lista en el d├¡a. No volvemos a escribir.
+
+
+======= Email_2_FollowUp - FULL BODY (Row 1) =======
+Emilio de nuevo ÔÇö
+
+Te dej├® la semana pasada una nota sobre seguridad HTTP incompleta en
+http://www.ciavt.com.ar/. Entiendo que estos mails caen en el fondo de la bandeja.
+
+Una sola pregunta para ver si tiene sentido seguir: ┬┐este tema est├í
+en el radar de CIAVT para los pr├│ximos 6 meses, o es
+algo que por ahora no duele?
+
+Si la respuesta es "no duele", te saco de la lista y listo.
+Si es "s├¡, pero es complejo", te preparo un audit gratis de 1 p├ígina
+antes de la llamada, para que llegues con data y no con un pitch.
+
+Un abrazo,
+Emilio
+
+
+======= Email_3_Breakup - FULL BODY (Row 1) =======
+├Ültima nota y te dejo tranquilo ÔÇö
+
+Te comparto un recurso ├║til aunque no trabajemos juntos:
+
+  ÔåÆ https://ranuk.dev/ranuk-it/
+    "C├│mo un ingeniero ex-Booking.com construye software para
+     empresas de C├│rdoba ÔÇö sin intermediarios"
+
+Si en alg├║n momento seguridad HTTP incompleta pasa a ser prioridad,
+sab├®s d├│nde encontrarme. Te dejo fuera de la secuencia; no vas a
+recibir m├ís correos m├¡os.
+
+Gracias por el tiempo de leer,
+Emilio Ranucoli
+ranuk.dev/ranuk-it
