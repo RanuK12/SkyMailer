@@ -2,6 +2,53 @@
    SkyMailer v2 — JavaScript Application
    ═══════════════════════════════════════════ */
 
+const i18n = {
+  es: {
+    sendingAs: 'Enviando como:', templates: 'Plantillas', clickToUse: 'Clic para usar',
+    recipients: 'Destinatarios', recipientsLabel: 'destinatarios',
+    recipientsPlaceholder: 'Escribe emails separados por coma, Enter para agregar...',
+    importCSV: 'Importar CSV', clear: 'Limpiar',
+    variablesHint: 'Variables: carga un CSV para ver las disponibles',
+    validRecipients: 'destinatarios válidos', composeEmail: 'Redactar Email',
+    subject: 'Asunto', subjectPlaceholder: 'Ej: Novedades de {empresa} para {nombre}',
+    messageLabel: 'Mensaje (HTML soportado)',
+    messagePlaceholder: 'Escribe tu mensaje aquí. Usa {nombre}, {email} y otras variables del CSV...',
+    attachments: 'Archivos adjuntos', addFiles: 'Agregar archivos',
+    delayLabel: 'Delay entre envíos:', sendEmails: 'Enviar Correos',
+    batchQueue: 'Cola de Envío por Lotes',
+    batchHint: 'Cada email tiene su propio asunto y mensaje. Haz clic en uno para previsualizarlo.',
+    batchAttachments: 'Archivos adjuntos (se añaden a todos)',
+    sendAll: 'Enviar Todos los Correos', preview: 'Vista Previa', live: 'En vivo',
+    prev: 'Anterior', next: 'Siguiente', from: 'De:', to: 'Para:',
+    subjectLabel: 'Asunto:', noSubject: 'Sin asunto',
+    previewHint: 'Escribe tu mensaje para ver la vista previa...',
+    sending: 'Enviando correos...', preparing: 'Preparando envío...',
+    sent: 'Enviados', failed: 'Fallidos', downloadLog: 'Descargar Log', close: 'Cerrar'
+  },
+  en: {
+    sendingAs: 'Sending as:', templates: 'Templates', clickToUse: 'Click to use',
+    recipients: 'Recipients', recipientsLabel: 'recipients',
+    recipientsPlaceholder: 'Type emails separated by comma, Enter to add...',
+    importCSV: 'Import CSV', clear: 'Clear',
+    variablesHint: 'Variables: upload a CSV to see available ones',
+    validRecipients: 'valid recipients', composeEmail: 'Compose Email',
+    subject: 'Subject', subjectPlaceholder: 'Ex: Updates from {company} for {name}',
+    messageLabel: 'Message (HTML supported)',
+    messagePlaceholder: 'Write your message here. Use {name}, {email} and other CSV variables...',
+    attachments: 'File attachments', addFiles: 'Add files',
+    delayLabel: 'Delay between sends:', sendEmails: 'Send Emails',
+    batchQueue: 'Batch Send Queue',
+    batchHint: 'Each email has its own subject and body. Click one to preview it.',
+    batchAttachments: 'Attachments (added to all emails)',
+    sendAll: 'Send All Emails', preview: 'Preview', live: 'Live',
+    prev: 'Previous', next: 'Next', from: 'From:', to: 'To:',
+    subjectLabel: 'Subject:', noSubject: 'No subject',
+    previewHint: 'Write your message to see the preview...',
+    sending: 'Sending emails...', preparing: 'Preparing send...',
+    sent: 'Sent', failed: 'Failed', downloadLog: 'Download Log', close: 'Close'
+  }
+};
+
 const App = {
   recipients: [],
   attachments: [],
@@ -9,6 +56,7 @@ const App = {
   availableVars: ['email', 'nombre'],
   batchMode: false,
   batchPreviewIndex: 0,
+  currentLang: 'es',
 
   init() {
     this.bindEvents();
@@ -601,7 +649,34 @@ const App = {
     const a = document.createElement('a');
     a.href = url; a.download = 'skymailer_log.csv'; a.click();
     URL.revokeObjectURL(url);
+  },
+
+  // ── Language Toggle ──
+  toggleLanguage() {
+    this.currentLang = this.currentLang === 'es' ? 'en' : 'es';
+    this.applyLanguage();
+  },
+
+  applyLanguage() {
+    const t = i18n[this.currentLang];
+    const btn = document.getElementById('langToggle');
+    if (btn) btn.textContent = '🌐 ' + (this.currentLang === 'es' ? 'ES' : 'EN');
+
+    // Update all data-i18n text nodes
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) el.textContent = t[key];
+    });
+
+    // Update all data-i18n-placeholder
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (t[key]) el.placeholder = t[key];
+    });
+
+    document.documentElement.lang = this.currentLang === 'es' ? 'es' : 'en';
   }
 };
 
 document.addEventListener('DOMContentLoaded', () => App.init());
+

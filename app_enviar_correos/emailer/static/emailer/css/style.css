@@ -107,6 +107,23 @@ body::before {
   50% { opacity: 0.5; }
 }
 
+.btn-lang {
+  background: rgba(108,99,255,0.15);
+  border: 1px solid rgba(108,99,255,0.3);
+  color: var(--accent-light);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.8em;
+  font-weight: 600;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+.btn-lang:hover {
+  background: rgba(108,99,255,0.3);
+  transform: scale(1.05);
+}
+
 /* ── Main Layout ── */
 .main-container {
   position: relative; z-index: 1;
