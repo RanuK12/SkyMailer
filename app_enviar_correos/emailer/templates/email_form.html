@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkyMailer — Envío Masivo Inteligente</title>
-  <meta name="description" content="SkyMailer: herramienta profesional de envío masivo de correos con personalización, plantillas y seguimiento en tiempo real.">
+  <title>SkyMailer — Intelligent Mass Email</title>
+  <meta name="description" content="SkyMailer: professional batch email tool with personalization, templates and real-time tracking.">
   <link rel="stylesheet" href="{% static 'emailer/css/style.css' %}">
 </head>
 <body>
@@ -17,6 +17,9 @@
       <span class="logo-text">SkyMailer</span>
     </div>
     <div class="header-info">
+      <button class="btn-lang" id="langToggle" onclick="App.toggleLanguage()" title="Switch language">
+        🌐 ES
+      </button>
       <span class="dot"></span>
       <span class="sender-email">{{ sender_email }}</span>
     </div>
@@ -31,15 +34,15 @@
       <!-- Sender Info -->
       <div class="sender-info">
         <span class="sender-icon">📤</span>
-        <span class="sender-label">Enviando como:</span>
+        <span class="sender-label" data-i18n="sendingAs">Enviando como:</span>
         <span class="sender-email">{{ sender_email }}</span>
       </div>
 
       <!-- Templates -->
       <div class="card" id="templateCard">
         <div class="card-title">
-          <span class="icon">📋</span> Plantillas
-          <span class="badge">Clic para usar</span>
+          <span class="icon">📋</span> <span data-i18n="templates">Plantillas</span>
+          <span class="badge" data-i18n="clickToUse">Clic para usar</span>
         </div>
         <div class="template-grid" id="templateGrid">
           <!-- Loaded dynamically -->
@@ -49,101 +52,105 @@
       <!-- Recipients -->
       <div class="card">
         <div class="card-title">
-          <span class="icon">👥</span> Destinatarios
-          <span class="badge" id="recipientCount">0 destinatarios</span>
+          <span class="icon">👥</span> <span data-i18n="recipients">Destinatarios</span>
+          <span class="badge" id="recipientCount">0 <span data-i18n="recipientsLabel">destinatarios</span></span>
         </div>
 
         <div class="recipients-zone" id="recipientsZone">
           <div class="recipient-chips" id="recipientChips"></div>
           <input type="text" class="recipients-input" id="recipientsInput"
+                 data-i18n-placeholder="recipientsPlaceholder"
                  placeholder="Escribe emails separados por coma, Enter para agregar...">
         </div>
 
         <div class="recipients-actions">
           <input type="file" class="file-input-hidden" id="csvFileInput" accept=".csv,.txt,.xlsx,.xls">
           <button type="button" class="btn btn-secondary btn-sm" id="csvUploadBtn">
-            📁 Importar CSV
+            📁 <span data-i18n="importCSV">Importar CSV</span>
           </button>
           <button type="button" class="btn btn-secondary btn-sm" onclick="App.clearRecipients()">
-            🗑️ Limpiar
+            🗑️ <span data-i18n="clear">Limpiar</span>
           </button>
         </div>
 
         <div class="variables-bar" id="variablesBar">
-          <span style="font-size:0.75em;color:var(--text-muted)">Variables: carga un CSV para ver las disponibles</span>
+          <span style="font-size:0.75em;color:var(--text-muted)" data-i18n="variablesHint">Variables: carga un CSV para ver las disponibles</span>
         </div>
 
         <div class="counter" id="recipientCounter">
-          <span class="count">0</span> destinatarios válidos
+          <span class="count">0</span> <span data-i18n="validRecipients">destinatarios válidos</span>
         </div>
       </div>
 
       <!-- Compose (normal mode) -->
       <div class="card" id="composeCard">
         <div class="card-title">
-          <span class="icon">✏️</span> Redactar Email
+          <span class="icon">✏️</span> <span data-i18n="composeEmail">Redactar Email</span>
         </div>
 
         {% csrf_token %}
 
         <div class="form-group">
-          <label for="asunto">Asunto</label>
-          <input type="text" id="asunto" name="asunto" placeholder="Ej: Novedades de {empresa} para {nombre}">
+          <label for="asunto" data-i18n="subject">Asunto</label>
+          <input type="text" id="asunto" name="asunto"
+                 data-i18n-placeholder="subjectPlaceholder"
+                 placeholder="Ej: Novedades de {empresa} para {nombre}">
         </div>
 
         <div class="form-group">
-          <label for="mensaje">Mensaje (HTML soportado)</label>
+          <label for="mensaje" data-i18n="messageLabel">Mensaje (HTML soportado)</label>
           <textarea id="mensaje" name="mensaje" rows="10"
+                    data-i18n-placeholder="messagePlaceholder"
                     placeholder="Escribe tu mensaje aquí. Usa {nombre}, {email} y otras variables del CSV..."></textarea>
         </div>
 
         <!-- Attachments -->
         <div class="form-group">
-          <label>Archivos adjuntos</label>
+          <label data-i18n="attachments">Archivos adjuntos</label>
           <input type="file" class="file-input-hidden" id="attachFileInput" multiple>
           <button type="button" class="btn btn-secondary btn-sm" id="attachBtn">
-            📎 Agregar archivos
+            📎 <span data-i18n="addFiles">Agregar archivos</span>
           </button>
           <div class="attachments-list" id="attachmentsList"></div>
         </div>
 
         <!-- Delay Control -->
         <div class="delay-control">
-          <label for="delaySlider">⏱️ Delay entre envíos:</label>
+          <label for="delaySlider">⏱️ <span data-i18n="delayLabel">Delay entre envíos:</span></label>
           <input type="range" id="delaySlider" min="3" max="120" value="60" step="1">
           <span class="delay-value" id="delayValue">60s</span>
         </div>
 
         <!-- Send Button -->
         <button type="button" class="btn btn-primary btn-send" id="sendBtn" disabled>
-          🚀 Enviar Correos
+          🚀 <span data-i18n="sendEmails">Enviar Correos</span>
         </button>
       </div>
 
       <!-- Batch Queue (batch mode, hidden by default) -->
       <div class="card" id="batchCard" style="display:none">
         <div class="card-title">
-          <span class="icon">📦</span> Cola de Envío por Lotes
+          <span class="icon">📦</span> <span data-i18n="batchQueue">Cola de Envío por Lotes</span>
           <span class="badge" id="batchCount">0 emails</span>
         </div>
-        <p style="font-size:0.82em;color:var(--text-secondary);margin-bottom:12px">
+        <p style="font-size:0.82em;color:var(--text-secondary);margin-bottom:12px" data-i18n="batchHint">
           Cada email tiene su propio asunto y mensaje. Haz clic en uno para previsualizarlo.
         </p>
         <div class="batch-queue" id="batchQueue"></div>
 
         <!-- Attachments in batch mode -->
         <div class="form-group" style="margin-top:16px">
-          <label>Archivos adjuntos (se añaden a todos)</label>
+          <label data-i18n="batchAttachments">Archivos adjuntos (se añaden a todos)</label>
           <input type="file" class="file-input-hidden" id="attachFileInputBatch" multiple>
           <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('attachFileInputBatch').click()">
-            📎 Agregar archivos
+            📎 <span data-i18n="addFiles">Agregar archivos</span>
           </button>
           <div class="attachments-list" id="attachmentsListBatch"></div>
         </div>
 
         <!-- Delay Control -->
         <div class="delay-control">
-          <label for="delaySliderBatch">⏱️ Delay entre envíos:</label>
+          <label for="delaySliderBatch">⏱️ <span data-i18n="delayLabel">Delay entre envíos:</span></label>
           <input type="range" id="delaySliderBatch" min="3" max="120" value="60" step="1"
                  oninput="document.getElementById('delayValueBatch').textContent=this.value+'s'">
           <span class="delay-value" id="delayValueBatch">60s</span>
@@ -151,7 +158,7 @@
 
         <!-- Send Button -->
         <button type="button" class="btn btn-primary btn-send" id="sendBtnBatch" disabled>
-          🚀 Enviar Todos los Correos
+          🚀 <span data-i18n="sendAll">Enviar Todos los Correos</span>
         </button>
       </div>
     </div>
@@ -160,24 +167,24 @@
     <div class="preview-column">
       <div class="card" style="position:sticky;top:30px;">
         <div class="card-title">
-          <span class="icon">👁️</span> Vista Previa
-          <span class="badge">En vivo</span>
+          <span class="icon">👁️</span> <span data-i18n="preview">Vista Previa</span>
+          <span class="badge" data-i18n="live">En vivo</span>
         </div>
 
         <div class="preview-frame">
           <!-- Batch preview navigation -->
           <div class="preview-nav" id="previewNav" style="display:none">
-            <button class="btn btn-secondary btn-sm" onclick="App.previewBatchItem(Math.max(0, App.batchPreviewIndex-1))">← Anterior</button>
+            <button class="btn btn-secondary btn-sm" onclick="App.previewBatchItem(Math.max(0, App.batchPreviewIndex-1))">← <span data-i18n="prev">Anterior</span></button>
             <span class="preview-counter" id="previewCounter"></span>
-            <button class="btn btn-secondary btn-sm" onclick="App.previewBatchItem(Math.min(App.recipients.filter(r=>r._valid).length-1, App.batchPreviewIndex+1))">Siguiente →</button>
+            <button class="btn btn-secondary btn-sm" onclick="App.previewBatchItem(Math.min(App.recipients.filter(r=>r._valid).length-1, App.batchPreviewIndex+1))"><span data-i18n="next">Siguiente</span> →</button>
           </div>
           <div class="preview-header">
-            <div><strong>De:</strong> {{ sender_email }}</div>
-            <div><strong>Para:</strong> <span id="previewTo">destinatario@ejemplo.com</span></div>
-            <div><strong>Asunto:</strong> <span id="previewSubject"><em style="color:#999">Sin asunto</em></span></div>
+            <div><strong data-i18n="from">De:</strong> {{ sender_email }}</div>
+            <div><strong data-i18n="to">Para:</strong> <span id="previewTo">destinatario@ejemplo.com</span></div>
+            <div><strong data-i18n="subjectLabel">Asunto:</strong> <span id="previewSubject"><em style="color:#999" data-i18n="noSubject">Sin asunto</em></span></div>
           </div>
           <div id="previewBody">
-            <em style="color:#999">Escribe tu mensaje para ver la vista previa...</em>
+            <em style="color:#999" data-i18n="previewHint">Escribe tu mensaje para ver la vista previa...</em>
           </div>
         </div>
       </div>
@@ -187,8 +194,8 @@
   <!-- Progress Overlay -->
   <div class="progress-overlay" id="progressOverlay">
     <div class="progress-card">
-      <h2 class="progress-title" id="progressTitle">Enviando correos...</h2>
-      <p class="progress-subtitle" id="progressSubtitle">Preparando envío...</p>
+      <h2 class="progress-title" id="progressTitle" data-i18n="sending">Enviando correos...</h2>
+      <p class="progress-subtitle" id="progressSubtitle" data-i18n="preparing">Preparando envío...</p>
 
       <div class="progress-bar-container">
         <div class="progress-bar-fill" id="progressBarFill"></div>
@@ -197,11 +204,11 @@
       <div class="progress-stats">
         <div class="stat">
           <div class="stat-value success" id="successCount">0</div>
-          <div class="stat-label">Enviados</div>
+          <div class="stat-label" data-i18n="sent">Enviados</div>
         </div>
         <div class="stat">
           <div class="stat-value error" id="errorCount">0</div>
-          <div class="stat-label">Fallidos</div>
+          <div class="stat-label" data-i18n="failed">Fallidos</div>
         </div>
         <div class="stat">
           <div class="stat-value" id="totalCount" style="color:var(--accent-light)">0</div>
@@ -212,8 +219,8 @@
       <div class="progress-log" id="progressLog"></div>
 
       <div class="progress-actions">
-        <button class="btn btn-secondary" id="downloadLog" style="display:none">📥 Descargar Log</button>
-        <button class="btn btn-primary" id="closeProgress" style="display:none">✓ Cerrar</button>
+        <button class="btn btn-secondary" id="downloadLog" style="display:none">📥 <span data-i18n="downloadLog">Descargar Log</span></button>
+        <button class="btn btn-primary" id="closeProgress" style="display:none">✓ <span data-i18n="close">Cerrar</span></button>
       </div>
     </div>
   </div>
