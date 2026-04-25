@@ -2,6 +2,7 @@
   <img src="https://img.shields.io/badge/SkyMailer-v2.0-6C63FF?style=for-the-badge&logo=gmail&logoColor=white" alt="SkyMailer v2.0"/>
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12"/>
   <img src="https://img.shields.io/badge/Django-5.x-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django"/>
+  <img src="https://img.shields.io/badge/Licencia-MIT-green?style=for-the-badge" alt="MIT License"/>
 </p>
 
 <h1 align="center">✈️ SkyMailer 2.0</h1>
@@ -185,6 +186,12 @@ Script standalone que toma un archivo Excel con correos en texto plano y los con
 **Emilio Ranucoli** — Ingeniero en Sistemas  
 Fundador de [Ranuk IT Solutions](https://ranuk.dev/ranuk-it)  
 Ex-Booking.com (Ámsterdam) · Ex-Accenture (Roma)
+
+---
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la **Licencia MIT** — ver el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
 
