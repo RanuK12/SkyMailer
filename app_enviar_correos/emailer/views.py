@@ -159,7 +159,7 @@ def upload_csv(request):
         
         if message_col is None:
             for col in reader.fieldnames:
-                if 'body' in col or 'mensaje' in col or 'cuerpo' in col or 'contenido' in col:
+                if 'body' in col or 'mensaje' in col or 'cuerpo' in col or 'contenido' in col or 'html' in col:
                     message_col = col
                     break
         

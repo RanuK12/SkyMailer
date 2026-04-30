@@ -7,8 +7,8 @@ sino "cordobés que hizo carrera afuera y vuelve a aportar".
 import openpyxl
 import re
 
-INPUT_FILE = r'C:\Users\emilio\Desktop\Oficina Ranuk\Ranuk-Outreach\emails_listos_todos.xlsx'
-OUTPUT_FILE = r'C:\Users\emilio\Desktop\Oficina Ranuk\Ranuk-Outreach\emails_listos_todos.xlsx'
+INPUT_FILE = r'C:\Users\emilio\Desktop\Oficina Ranuk\Ranuk-Outreach\emails_listos_58_emails.xlsx'
+OUTPUT_FILE = r'C:\Users\emilio\Desktop\Oficina Ranuk\Ranuk-Outreach\emails_listos_58_emails.xlsx'
 
 print("Loading workbook...")
 wb = openpyxl.load_workbook(INPUT_FILE)
@@ -63,6 +63,8 @@ def format_cold_email(original_body, empresa, meta):
     
     calendly = 'https://calendly.com/emilio-ranuk/30min'
 
+    sitio_html = f'<a href="{sitio}" style="color:#6C63FF;text-decoration:none;border-bottom:1px solid #6C63FF">{sitio}</a>' if sitio and sitio.lower() != 'nan' else 'la infraestructura de su empresa'
+
     html = f'''<div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;color:#2d2d2d;line-height:1.75;font-size:15px">
 
 <p>Hola equipo de {empresa},</p>
@@ -71,7 +73,7 @@ def format_cold_email(original_body, empresa, meta):
 
 <p>Ahora estoy de vuelta en C\u00f3rdoba con algo claro: <strong>traer ese nivel de tecnolog\u00eda a empresas de ac\u00e1</strong>, de forma directa y sin intermediarios.</p>
 
-<p>Antes de escribirles, revis\u00e9 <a href="{sitio}" style="color:#6C63FF;text-decoration:none;border-bottom:1px solid #6C63FF">{sitio}</a> y detect\u00e9 algunas cosas concretas que se pueden mejorar:</p>
+<p>Antes de escribirles, revis\u00e9 {sitio_html} y detect\u00e9 algunas cosas concretas que se pueden mejorar:</p>
 
 <div style="background:#f8f5ff;border-left:4px solid #6C63FF;padding:16px 20px;border-radius:0 8px 8px 0;margin:18px 0">
 <ul style="margin:0;padding-left:18px">
@@ -130,11 +132,13 @@ def format_followup_email(original_body, empresa, meta):
     if falencia == 'nan':
         falencia = 'las mejoras técnicas'
 
+    sitio_html = f'en <a href="{sitio}" style="color:#6C63FF;text-decoration:none;border-bottom:1px solid #6C63FF">{sitio}</a>' if sitio and sitio.lower() != 'nan' else 'en la infraestructura de su empresa'
+
     html = f'''<div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;color:#2d2d2d;line-height:1.75;font-size:15px">
 
 <p>Emilio de nuevo \u2014</p>
 
-<p>La semana pasada les dej\u00e9 una nota sobre <strong>{falencia}</strong> que detect\u00e9 en <a href="{sitio}" style="color:#6C63FF;text-decoration:none;border-bottom:1px solid #6C63FF">{sitio}</a>. S\u00e9 que estos mails a veces quedan enterrados en la bandeja, as\u00ed que voy al punto:</p>
+<p>La semana pasada les dej\u00e9 una nota sobre <strong>{falencia}</strong> que detect\u00e9 {sitio_html}. S\u00e9 que estos mails a veces quedan enterrados en la bandeja, as\u00ed que voy al punto:</p>
 
 <div style="background:#f8f5ff;border-left:4px solid #6C63FF;padding:20px 24px;border-radius:0 10px 10px 0;margin:20px 0">
 <p style="margin:0;font-weight:600;color:#333;font-size:16px">Una sola pregunta:</p>
