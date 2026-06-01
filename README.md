@@ -228,3 +228,8 @@ Ex-Booking.com (Ámsterdam) · Ex-Accenture (Roma)
 <p align="center">
   <sub>Hecho con ☕ en Córdoba, Argentina · <a href="https://ranuk.dev">ranuk.dev</a></sub>
 </p>
+
+
+## Licencia
+
+MIT — © 2026 Ranuk IT Solutions | [ranuk.dev](https://ranuk.dev)
