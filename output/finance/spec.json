@@ -1,0 +1,55 @@
+{
+  "title": "Reporte Financiero Diario — 2026-06-27 22:45",
+  "template": "finance_daily",
+  "logo": "/Users/emilioranucoli/Desktop/Oficina_Ranuk/assets/brand/ranukita-logo-official.png",
+  "watermark": "/Users/emilioranucoli/Desktop/Oficina_Ranuk/assets/brand/minilogo2.png",
+  "content": [
+    {
+      "type": "header",
+      "text": "Reporte Financiero Diario — 2026-06-27 22:45"
+    },
+    {
+      "type": "table",
+      "header": [
+        "Mercado",
+        "Valor",
+        "Variación"
+      ],
+      "rows": [
+        [
+          "Dólar Blue",
+          "$None",
+          "None%"
+        ],
+        [
+          "Euro",
+          "€None",
+          "None%"
+        ],
+        [
+          "BTC/USD",
+          "$None",
+          "None%"
+        ],
+        [
+          "Oro (oz)",
+          "$None",
+          "None%"
+        ],
+        [
+          "S&P 500",
+          "None",
+          "None%"
+        ]
+      ]
+    },
+    {
+      "type": "header",
+      "text": "Noticias Económicas"
+    },
+    {
+      "type": "text",
+      "text": "• [-] No se pudieron cargar noticias → [Leer más](#)"
+    }
+  ]
+}
