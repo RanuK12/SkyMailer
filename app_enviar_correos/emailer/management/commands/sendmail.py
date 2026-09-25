@@ -24,6 +24,18 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.management.base import BaseCommand, CommandError
 
 
+def _texto_plano(html):
+    import re
+    from django.utils.html import strip_tags
+    import html as _h
+    t = re.sub(r"(?is)<(script|style).*?</\1>", "", html)
+    t = re.sub(r"(?i)<br\s*/?>|</p>|</li>|</div>|</tr>|</h\d>", "\n", t)
+    t = re.sub(r"(?i)<li[^>]*>", "- ", t)
+    t = _h.unescape(strip_tags(t))
+    t = "\n".join(l.strip() for l in t.splitlines())
+    return re.sub(r"\n{3,}", "\n\n", t).strip() or "(ver versión HTML)"
+
+
 class Command(BaseCommand):
     help = "Envía un email individual con el motor SMTP de SkyMailer (.env)."
 
@@ -52,7 +64,9 @@ class Command(BaseCommand):
 
         is_html = not o["plain"]
         # text/plain de respaldo cuando es HTML (clientes sin HTML + mejor deliverability)
-        text_body = body if not is_html else "Este email requiere un cliente con HTML."
+        # Antes era una frase fija ("requiere un cliente con HTML"): un text/plain vacío de contenido es
+        # señal de mail masivo para los filtros. Ahora es el mismo texto del HTML, legible.
+        text_body = body if not is_html else _texto_plano(body)
 
         msg = EmailMultiAlternatives(
             subject=o["subject"], body=text_body, from_email=from_email, to=[to],
