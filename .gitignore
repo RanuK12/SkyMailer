@@ -11,6 +11,8 @@ media/
 
 # Environment
 .env
+.env.*
+*.env.backup
 
 # IDE
 .vscode/
