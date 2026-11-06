@@ -83,7 +83,7 @@ class Command(BaseCommand):
             cid, path = spec.split("=", 1)
             img = MIMEImage(Path(path).expanduser().read_bytes())
             img.add_header("Content-ID", f"<{cid}>")
-            img.add_header("Content-Disposition", "inline", filename=Path(path).name)
+            img.add_header("Content-Disposition", "inline")
             msg.attach(img)
 
         for path in o["attach"]:
