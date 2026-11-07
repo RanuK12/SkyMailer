@@ -13,6 +13,11 @@ media/
 .env
 .env.*
 *.env.backup
+**/.env
+**/.env.*
+**/*.env.backup
+app_enviar_correos/.env
+app_enviar_correos/.env.*
 
 # IDE
 .vscode/
